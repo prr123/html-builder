@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="blog about software writing and using">
+  <meta name="keywords" content="Go">
+  <meta name="author" content="prr">
+  <meta name="date" content="1\3\2021">
+  <meta  name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Here is the Title</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  list-style: none;
+  text-decoration:none;
+}
+.main_div {
+	border: red solid 1px;
+	min-height: 50px;
+	cursor: n-resize;
+}
+</style>
+<script>
+window.onload = function() {
+	mdiv = document.getElementById("mdivid");
+	let mdivht = mdiv.offsetHeight;
+	console.log('height: ' + mdivht);
+
+
+	mdiv.onclick = function(e) {
+//		console.log('click');
+//   		mdiv.style.borderColor = 'green';
+	}
+	mdivOnmd = function(e) {
+		console.log('md');
+   		mdiv.style.borderBottomColor = 'black';
+		mdiv.style.borderBottomStyle = 'dashed';
+	}
+	mdiv.onmm = function(e) {
+		console.log('yoffset: ' + e.offsetY);
+//   	mdiv.style.borderColor = 'green';
+	}
+	mdiv.onmu = function(e) {
+		console.log('mu');
+		mdiv.style.minHeight = e.offsetY;
+   		mdiv.style.borderColor = 'blue';
+	}
+//	mdiv.addEventListener('click', mdiv.onclick);
+	mdiv.addEventListener('mousedown', mdivOnmd);
+//	mdiv.addEventListener('mousemove', mdiv.onmm);
+	mdiv.addEventListener('mouseup', mdiv.onmu);
+	
+}
+</script>
+</head>
+<body>
+  <div class="main_div" id="mdivid">
+  <h1>Hello Index</h1>
+  </div>
+</body>
+</html>

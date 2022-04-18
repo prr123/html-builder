@@ -18,6 +18,10 @@
 }
 .main_div {
 	border: red solid 1px;
+	min-height: 200px;
+}
+.nav_div {
+	border: purple solid 1px;
 	min-height: 50px;
 	cursor: n-resize;
 }
@@ -25,39 +29,77 @@
 <script>
 window.onload = function() {
 	mdiv = document.getElementById("mdivid");
-	let mdivht = mdiv.offsetHeight;
-	console.log('height: ' + mdivht);
+	navdiv = document.getElementById("navid");
 
+	let navht = navdiv.offsetHeight;
+	console.log('nav height: ' + navht);
+	let mmEnable = false;
+	let mm = false;
 
-	mdiv.onclick = function(e) {
-//		console.log('click');
-//   		mdiv.style.borderColor = 'green';
-	}
-	mdivOnmd = function(e) {
-		console.log('md');
-   		mdiv.style.borderBottomColor = 'black';
-		mdiv.style.borderBottomStyle = 'dashed';
-	}
 	mdiv.onmm = function(e) {
-		console.log('yoffset: ' + e.offsetY);
+//		console.log('yoffset: ' + e.offsetY);
+		navht = e.offsetY;
+		navdiv.style.height = navht + "px";
 //   	mdiv.style.borderColor = 'green';
 	}
+
 	mdiv.onmu = function(e) {
 		console.log('mu');
 		mdiv.style.minHeight = e.offsetY;
    		mdiv.style.borderColor = 'blue';
 	}
-//	mdiv.addEventListener('click', mdiv.onclick);
-	mdiv.addEventListener('mousedown', mdivOnmd);
-//	mdiv.addEventListener('mousemove', mdiv.onmm);
-	mdiv.addEventListener('mouseup', mdiv.onmu);
+	navdiv.onmd = function(e) {
+		console.log('md');
+   		mdiv.style.borderBottomColor = 'black';
+		mdiv.style.borderBottomStyle = 'dashed';
+	}
+
+	function waitmdivclick() {
+		mdiv.addEventListener('click', mdiv.onclick);
+		mdiv.addEventListener('mousemove', mdiv.onmm);
+		mmEnable = true;
+	}
+
+	mdiv.onclick = function(e) {		
+		console.log('m1clic: ' + mmEnable);
+		if (mmEnable) {
+			console.log('m2click ' + navht);
+			navdiv.style.height = navht + "px";
+   			navdiv.style.borderColor = 'orange';
+			navdiv.style.backgroundColor = '';
+			mmEnable = false;
+			mdiv.removeEventListener('mousemove', mdiv.onmm)
+			mm = false;
+		}
+	}
+
+	navdiv.onclick = function(e) {
+		console.log('nclick: ' + mmEnable);
+//		console.log(e);
+		if (!mmEnable) {
+			navht = navdiv.offsetHeight;
+   			navdiv.style.borderColor = 'green';
+			navdiv.style.backgroundColor = "rgb(202, 227,193)";
+//		mdiv.addEventListener('click', mdiv.onclick);
+			navdiv.removeEventListener('click', navdiv.onclick)
+			myTimeout = setTimeout(waitmdivclick, 200);		
+			mm = true;
+		}
+	}
+
+
+	navdiv.addEventListener('click', navdiv.onclick);
+//	mdiv.addEventListener('mousedown', mdiv.onmd);
+//	mdiv.addEventListener('mouseup', mdiv.onmu);
 	
 }
 </script>
 </head>
 <body>
   <div class="main_div" id="mdivid">
+  <div class="nav_div" id="navid">
   <h1>Hello Index</h1>
+  </div>
   </div>
 </body>
 </html>

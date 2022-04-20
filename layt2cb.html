@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="blog about software writing and using">
+  <meta name="keywords" content="Go">
+  <meta name="author" content="prr">
+  <meta name="date" content="1\3\2021">
+  <meta  name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Here is the Title</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  font-family: calibri;
+  list-style: none;
+  text-decoration:none;
+}
+.div-main {
+	border: red solid 1px;
+	height: 100vh;
+	position: relative;
+}
+
+.div-nav {
+	border: purple solid 1px;
+	min-height: 50px;
+	cursor: n-resize;
+	background-color: rgb(247, 194, 153);
+	text-align: center;
+	width: 100%;
+}
+
+.div-right {
+	border: green solid 1px;
+	background-color: rgb(214, 230, 179);
+	cursor: w-resize;
+	width: 20%;
+	min-width: 40px;
+}
+.footer {
+	min-height: 50px;
+	height: 10vh;
+	width: 100%;
+	background-color: rgb(179, 223, 230);
+	text-align: center;
+	border: blue solid 1px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+
+}
+</style>
+<script>
+window.onload = function() {
+	mdiv = document.getElementById("mdivid");
+	navdiv = document.getElementById("navid");
+	rhdiv = document.getElementById("rdivid");
+	fdiv = document.getElementById("footid");
+	
+	let navht = navdiv.offsetHeight;
+	let rdwd = rhdiv.offsetWidth;
+
+	console.log('nav height: ' + navht + ' rdiv width: ' + rdwd);
+
+	rhdiv.style.height =  (mdiv.offsetHeight - navht - rhdiv.offsetHeight)+ 'px';
+
+
+	let mmNavEnable = false;
+	let mmRDEnable = false;
+	let dir;
+	let mm = false;
+
+	mdiv.onmm = function(e) {
+//		console.log('xoff: '+ e.offsetX +' yoff: ' + e.offsetY);
+		if (mmNavEnable) {
+			navht = e.offsetY;
+			navdiv.style.height = navht + "px";
+		}
+		if (mmRDEnable) {
+			rdwd = e.offsetX;
+			rhdiv.style.width = rdwd + "px";
+		}
+
+	}
+
+	mdiv.onmu = function(e) {
+		console.log('mu');
+		mdiv.style.minHeight = e.offsetY;
+   		mdiv.style.borderColor = 'blue';
+	}
+	navdiv.onmd = function(e) {
+		console.log('md');
+   		mdiv.style.borderBottomColor = 'black';
+		mdiv.style.borderBottomStyle = 'dashed';
+	}
+
+	function waitmdivclick() {
+		mdiv.addEventListener('click', mdiv.onclick);
+		mdiv.addEventListener('mousemove', mdiv.onmm);
+		if (dir == 'nav') {mmNavEnable = true;}
+		if (dir == 'rdiv') {mmRDEnable = true;}
+	}
+
+	mdiv.onclick = function(e) {
+		tstdir = false;
+		if (dir == 'nav') {console.log('m1clic nav: ' + mmNavEnable); tstdir = true;}
+		if (dir == 'rdiv') {console.log('m1clic nav: ' + mmNavEnable); tstdir = true;}
+		if (!tstdir) {console.log('dir: ' + dir); return;} 
+
+		if (mmNavEnable) {
+			navdiv.style.height = navht + "px";
+   			navdiv.style.borderColor = 'purple';
+			navdiv.style.backgroundColor = '';
+			mmNavEnable = false;
+			mdiv.removeEventListener('mousemove', mdiv.onmm)
+			mm = false;
+		}
+		if (mmRDEnable) {
+			rhdiv.style.width = rdwd + "px";
+   			rhdiv.style.borderColor = 'green';
+			rhdiv.style.backgroundColor = '';
+			mmRDEnable = false;
+			mdiv.removeEventListener('mousemove', mdiv.onmm)
+			mm = false;
+		}
+		rdiv = '';
+	}
+
+	navdiv.onclick = function(e) {
+//		console.log('nclick: ' + mmNavEnable);
+//		console.log(e);
+		if (!mmNavEnable) {
+			navht = navdiv.offsetHeight;
+   			navdiv.style.borderColor = 'orange';
+			navdiv.style.backgroundColor = "rgb(202, 227,193)";
+//		mdiv.addEventListener('click', mdiv.onclick);
+			navdiv.removeEventListener('click', navdiv.onclick)
+			rhdiv.removeEventListener('click', rhdiv.onclick)
+			dir = 'nav';
+			myTimeout = setTimeout(waitmdivclick, 200);		
+			mm = true;
+		}
+	}
+
+	rhdiv.onclick = function(e) {
+//		console.log('rclick: ' + mmRDEnable);
+//		console.log(e);
+		if (!mmRDEnable) {
+			rdwd = rhdiv.offsetWidth;
+   			rhdiv.style.borderColor = 'orange';
+			rhdiv.style.backgroundColor = "rgb(202, 227,193)";
+//		mdiv.addEventListener('click', mdiv.onclick);
+			navdiv.removeEventListener('click', navdiv.onclick)
+			rhdiv.removeEventListener('click', rhdiv.onclick)
+			dir = 'rdiv';
+			myTimeout = setTimeout(waitmdivclick, 200);		
+			mm = true;
+		}
+	}
+
+
+	navdiv.addEventListener('click', navdiv.onclick);
+	rhdiv.addEventListener('click', rhdiv.onclick);
+
+//	mdiv.addEventListener('mousedown', mdiv.onmd);
+//	mdiv.addEventListener('mouseup', mdiv.onmu);
+	
+}
+</script>
+</head>
+<body>
+  <div class="div-main" id="mdivid">
+	<div class="div-nav" id="navid">
+  		<h1>Hello Index</h1>
+  	</div>
+	<div class="div-right" id="rdivid"><h3>menu</h3>
+	</div>
+	<div class="footer" id="footid"><p>this is the footer</p>
+	</div>
+  </div>
+
+</body>
+</html>

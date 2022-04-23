@@ -55,7 +55,8 @@ func main() {
 
 	files, err := incl.ListInclFiles(srcfil)
 
-	infil.Close()
+	fmt.Printf("********** include files %d ******\n", len(*files))
+	srcfil.Close()
 	dstfil.Close()
 	fmt.Println("success!")
 }
